@@ -1,7 +1,7 @@
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getSession } from './lib/auth';
+import { getSession } from './lib/session';
 
 export const middleware = async (request: NextRequest) => {
   console.log('[middleware]');

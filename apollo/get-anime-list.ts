@@ -1,12 +1,27 @@
 import { gql } from '@apollo/client';
 import createApolloClient from './client';
+import { AnimePageData } from '@/app/anime/page';
+import { AnimeBase } from '@/app/anime/types';
 
 type getPageArgs = {
   page: number;
   perPage: number;
 };
 
-export async function getPage({ page, perPage }: getPageArgs) {
+const mapper = (data: any): AnimePageData => {
+  const animeList = (data.media as any[]).map<AnimeBase>((anime) => ({
+    id: anime.id,
+    title: anime.title.english ?? anime.title.romaji,
+    image: anime.coverImage.large,
+    episodes: anime.episodes,
+  }));
+  return {
+    pageInfo: data.pageInfo,
+    animeList,
+  };
+};
+
+export async function getAnimeList({ page, perPage }: getPageArgs) {
   const client = createApolloClient();
   const { data, error } = await client.query({
     query: gql`
@@ -27,8 +42,6 @@ export async function getPage({ page, perPage }: getPageArgs) {
             coverImage {
               large
             }
-            # 4. The format (e.g., TV, Movie)
-            format
             # 5. Number of episodes
             episodes
           }
@@ -45,7 +58,5 @@ export async function getPage({ page, perPage }: getPageArgs) {
     console.error(error);
   }
 
-  //TODO: Map
-
-  return data.Page;
+  return mapper(data.Page);
 }

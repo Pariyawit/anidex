@@ -1,6 +1,7 @@
 'use server';
 
-import { createSession, deleteSession } from '@/lib/auth';
+import { createSession, deleteSession } from '@/lib/session';
+import { redirect } from 'next/navigation';
 
 export type AuthResponse = {
   success: boolean;
@@ -28,10 +29,11 @@ export const signInOrUpdate = async (
 export const signOut = async (): Promise<AuthResponse> => {
   try {
     await deleteSession();
-
     return { success: true };
   } catch (error) {
     console.error(error);
+  } finally {
+    redirect('/');
   }
 
   return { success: false };
