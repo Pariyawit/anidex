@@ -5,7 +5,7 @@ import { AnimeBase } from '@/app/anime/types';
 
 type getPageArgs = {
   page: number;
-  perPage: number;
+  pageSize: number;
 };
 
 const mapper = (data: any): AnimePageData => {
@@ -21,7 +21,7 @@ const mapper = (data: any): AnimePageData => {
   };
 };
 
-export async function getAnimeList({ page, perPage }: getPageArgs) {
+export async function getAnimeList({ page, pageSize }: getPageArgs) {
   const client = createApolloClient();
   const { data, error } = await client.query({
     query: gql`
@@ -50,7 +50,7 @@ export async function getAnimeList({ page, perPage }: getPageArgs) {
     `,
     variables: {
       page,
-      perPage,
+      perPage: pageSize,
     },
   });
 

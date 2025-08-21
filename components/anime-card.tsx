@@ -5,11 +5,15 @@ import Image from 'next/image';
 const AnimeCard = ({ id, title, image, episodes }: AnimeBase) => {
   return (
     <Card.Root width='230px'>
-      <Image src={image} alt={`${title} image`} width={230} height={318} />
+      <Image
+        src={image}
+        alt={`${title} image`}
+        width={230}
+        height={318}
+        loading='lazy'
+      />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        {/* <Card.Description>
-        </Card.Description> */}
         <Text>Episodes: {episodes}</Text>
       </Card.Body>
       <Card.Footer justifyContent='flex-end'>

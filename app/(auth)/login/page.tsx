@@ -1,6 +1,6 @@
 'use client';
 import { Container } from '@chakra-ui/react';
-import { AuthResponse, signInOrUpdate } from '@/actions/auth';
+import { AuthResponse } from '@/actions/auth';
 import LoginForm from '@/components/login-form';
 
 const initialState: AuthResponse = { success: false };

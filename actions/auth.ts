@@ -29,12 +29,9 @@ export const signInOrUpdate = async (
 export const signOut = async (): Promise<AuthResponse> => {
   try {
     await deleteSession();
-    return { success: true };
   } catch (error) {
     console.error(error);
   } finally {
     redirect('/');
   }
-
-  return { success: false };
 };
