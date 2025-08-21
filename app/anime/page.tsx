@@ -1,8 +1,9 @@
 import { getAnimeList } from '@/apollo/get-anime-list';
-import { Container } from '@chakra-ui/react';
+import { Card, Container } from '@chakra-ui/react';
 import { AnimeBase } from './types';
 import PaginationBar from '@/components/pagination';
-import AnimeGrid from '@/components/anime-list';
+import AnimeList from '@/components/anime-list';
+import { Suspense } from 'react';
 
 export type AnimePageData = {
   pageInfo: {
@@ -29,9 +30,20 @@ const AnimePage = async ({ searchParams }: AnimePageProps) => {
     pageSize: PAGE_SIZE,
   });
 
+  const cards = Array.from({ length: PAGE_SIZE }).map((_, index) => (
+    <Card.Root
+      key={index}
+      width='230px'
+      height='500px'
+      colorPalette='gray'
+    ></Card.Root>
+  ));
+
   return (
     <Container>
-      <AnimeGrid animeList={data.animeList} />
+      <Suspense fallback={cards}>
+        <AnimeList page={page} pageSize={PAGE_SIZE} />
+      </Suspense>
       <PaginationBar
         total={data.pageInfo.total}
         pageSize={PAGE_SIZE}
