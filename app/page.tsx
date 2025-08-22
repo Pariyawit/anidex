@@ -1,6 +1,6 @@
 import LoginForm from '@/components/login-form';
 import { getSession } from '@/lib/session';
-import { Container, Heading, Text } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { redirect, useRouter } from 'next/navigation';
 
 export default async function Home() {
@@ -11,8 +11,7 @@ export default async function Home() {
   }
 
   return (
-    <Container maxW='md'>
-      <Heading>Welcome</Heading>
+    <Container maxW='md' pt='10%'>
       <LoginForm />
     </Container>
   );

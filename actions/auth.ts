@@ -13,7 +13,7 @@ export const signInOrUpdate = async (
   try {
     const data = {
       username: formData.get('username') as string,
-      role: formData.get('username') as string,
+      role: formData.get('role') as string,
     };
 
     await createSession(data.username, data.role);

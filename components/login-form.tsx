@@ -1,6 +1,6 @@
 'use client';
 import { AuthResponse, signInOrUpdate } from '@/actions/auth';
-import { Input, Button, Field } from '@chakra-ui/react';
+import { Input, Button, Field, Card, Heading } from '@chakra-ui/react';
 import Form from 'next/form';
 import { useRouter } from 'next/navigation';
 import { useActionState } from 'react';
@@ -13,13 +13,12 @@ type LoginFormProps = {
 
 const LoginForm = ({ from = '/anime' }: LoginFormProps) => {
   const router = useRouter();
-  const [state, formAction, isPending] = useActionState<AuthResponse, FormData>(
+  const [_, formAction, isPending] = useActionState<AuthResponse, FormData>(
     async (_, formData) => {
       const [result] = await Promise.all([signInOrUpdate(formData)]);
 
       if (result.success) {
         router.push(from);
-        router.refresh();
       }
 
       return result;
@@ -28,21 +27,40 @@ const LoginForm = ({ from = '/anime' }: LoginFormProps) => {
   );
   return (
     <Form action={formAction}>
-      <Field.Root required>
-        <Field.Label>
-          Username <Field.RequiredIndicator />
-        </Field.Label>
-        <Input name='username' placeholder='Enter your username' required />
-      </Field.Root>
-      <Field.Root required>
-        <Field.Label>
-          Role <Field.RequiredIndicator />
-        </Field.Label>
-        <Input name='role' placeholder='Enter your role' required />
-      </Field.Root>
-      <Button type='submit' minW={120}>
-        Enter
-      </Button>
+      <Card.Root colorPalette='orange'>
+        <Card.Header>
+          <Heading>Welcome</Heading>
+        </Card.Header>
+        <Card.Body>
+          <Field.Root required>
+            <Field.Label>
+              Username <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              name='username'
+              placeholder='Enter your username'
+              required
+              disabled={isPending}
+            />
+          </Field.Root>
+          <Field.Root required mt={2}>
+            <Field.Label>
+              Role <Field.RequiredIndicator />
+            </Field.Label>
+            <Input
+              name='role'
+              placeholder='Enter your role'
+              required
+              disabled={isPending}
+            />
+          </Field.Root>
+        </Card.Body>
+        <Card.Footer>
+          <Button type='submit' width='100%' disabled={isPending}>
+            {isPending ? '...' : 'Enter'}
+          </Button>
+        </Card.Footer>
+      </Card.Root>
     </Form>
   );
 };

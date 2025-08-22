@@ -2,17 +2,18 @@ import { cookies } from 'next/headers';
 
 export async function createSession(username: string, role: string) {
   const cookieStore = await cookies();
-  cookieStore.set('token', `${username}:${role}`);
+  cookieStore.set('username', username);
+  cookieStore.set('role', role);
 
   return { username, role };
 }
 
 export async function getSession() {
   const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
+  const username = cookieStore.get('username')?.value;
+  const role = cookieStore.get('role')?.value;
 
-  if (token) {
-    const [username, role] = token.split(':');
+  if (username && role) {
     return username && role ? { username, role } : null;
   }
 
@@ -21,5 +22,6 @@ export async function getSession() {
 
 export async function deleteSession() {
   const cookieStore = await cookies();
-  cookieStore.delete('token');
+  cookieStore.delete('username');
+  cookieStore.delete('role');
 }

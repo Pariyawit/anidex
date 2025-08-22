@@ -4,13 +4,14 @@ import type { NextRequest } from 'next/server';
 import { getSession } from './lib/session';
 
 export const middleware = async (request: NextRequest) => {
-  console.log('[middleware]');
   if (request.nextUrl.pathname.startsWith('/anime')) {
     const user = await getSession();
-    console.log({ user });
     if (!user) {
-      const loginUrl = new URL('/login', request.url);
-      loginUrl.searchParams.set('from', request.nextUrl.pathname);
+      const loginUrl = new URL('/', request.url);
+      loginUrl.searchParams.set(
+        'from',
+        request.nextUrl.pathname + request.nextUrl.search
+      );
       return NextResponse.redirect(loginUrl);
     }
   }
