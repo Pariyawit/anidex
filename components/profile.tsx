@@ -22,7 +22,7 @@ type ProfileProps = {
 
 const Profile = ({ username, role }: ProfileProps) => {
   const [open, setOpen] = useState(false);
-  const [state, formAction, isPending] = useActionState<AuthResponse, FormData>(
+  const [, formAction, isPending] = useActionState<AuthResponse, FormData>(
     async (_prevState, formData) => {
       const result = await signInOrUpdate(formData);
       setOpen(false);

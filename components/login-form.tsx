@@ -13,7 +13,7 @@ type LoginFormProps = {
 
 const LoginForm = ({ from = '/anime' }: LoginFormProps) => {
   const router = useRouter();
-  const [_, formAction, isPending] = useActionState<AuthResponse, FormData>(
+  const [, formAction, isPending] = useActionState<AuthResponse, FormData>(
     async (_, formData) => {
       const [result] = await Promise.all([signInOrUpdate(formData)]);
 

@@ -1,16 +1,12 @@
 import { getAnimeList } from '@/apollo/get-anime-list';
-import { Card, Container } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { AnimeBase } from './types';
-import PaginationBar from '@/components/pagination';
+import PaginationBar from '@/components/pagination-bar';
 import AnimeList from '@/components/anime-list';
-import { Suspense } from 'react';
 
 export type AnimePageData = {
   pageInfo: {
     total: number;
-    currentPage: number;
-    lastPage: number;
-    hasNextPage: boolean;
   };
   animeList: AnimeBase[];
 };
@@ -19,7 +15,7 @@ const PAGE_SIZE = 20;
 const DEFAULT_PAGE = 1;
 
 type AnimePageProps = {
-  searchParams: { page?: string };
+  searchParams: Promise<{ page?: string }>;
 };
 
 const AnimePage = async ({ searchParams }: AnimePageProps) => {
@@ -30,20 +26,9 @@ const AnimePage = async ({ searchParams }: AnimePageProps) => {
     pageSize: PAGE_SIZE,
   });
 
-  const cards = Array.from({ length: PAGE_SIZE }).map((_, index) => (
-    <Card.Root
-      key={index}
-      width='230px'
-      height='500px'
-      colorPalette='gray'
-    ></Card.Root>
-  ));
-
   return (
-    <Container>
-      <Suspense fallback={cards}>
-        <AnimeList page={page} pageSize={PAGE_SIZE} />
-      </Suspense>
+    <Container maxWidth='6xl'>
+      <AnimeList animeList={data.animeList} />
       <PaginationBar
         total={data.pageInfo.total}
         pageSize={PAGE_SIZE}

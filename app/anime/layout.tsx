@@ -1,14 +1,7 @@
-import { signOut } from '@/actions/auth';
+import Profile from '@/components/profile';
 import { getSession } from '@/lib/session';
-import {
-  Box,
-  Button,
-  Container,
-  Flex,
-  Heading,
-  HStack,
-  Spacer,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, HStack, Spacer } from '@chakra-ui/react';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 const AnimeLayout = async ({
@@ -17,6 +10,10 @@ const AnimeLayout = async ({
   children: React.ReactNode;
 }>) => {
   const user = await getSession();
+
+  if (!user) {
+    redirect('/');
+  }
   return (
     <>
       <Flex
@@ -27,18 +24,20 @@ const AnimeLayout = async ({
         px='32px'
         alignItems='center'
       >
-        <Heading as='h1'>Anime</Heading>
+        <Link href='/anime'>
+          <Heading as='h1'>Anime</Heading>
+        </Link>
         <Spacer />
-        <HStack>
+        <HStack gap={2}>
           <Box>
-            {user?.username} – {user?.role}
+            {user.username}({user.role})
           </Box>
-          <Button onClick={signOut}>Logout</Button>
+          <Profile username={user.username} role={user.role} />
         </HStack>
       </Flex>
       {children}
       <Flex as='footer' justifyContent='center' py='16px'>
-        Web Challenge V.3.5
+        Web Challenge V3.5
       </Flex>
     </>
   );
