@@ -25,7 +25,7 @@ const AnimeLayout = async ({
         alignItems='center'
       >
         <Link href='/anime'>
-          <Heading as='h1'>Anime</Heading>
+          <Heading as='h1'>AniDex</Heading>
         </Link>
         <Spacer />
         <HStack gap={2}>
