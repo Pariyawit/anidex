@@ -55,11 +55,11 @@ export async function getAnimeList({ page, pageSize }: getPageArgs) {
               romaji
               english
             }
+            episodes
+            description(asHtml: false)
             coverImage {
               large
             }
-            episodes
-            description(asHtml: false)
           }
         }
       }

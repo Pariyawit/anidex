@@ -5,3 +5,9 @@ export interface AnimeBase {
   description: string;
   episodes: number;
 }
+
+export interface Anime extends AnimeBase {
+  bannerImage: string;
+  genres: string[];
+  averageScore: string;
+}
