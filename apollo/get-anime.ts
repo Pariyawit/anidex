@@ -50,6 +50,6 @@ export async function getAnime({ id }: getAnimeArgs) {
   if (error) {
     console.error(error);
   }
-  console.log(data);
+
   return mapper(data.Media);
 }

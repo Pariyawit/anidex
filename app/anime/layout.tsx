@@ -6,7 +6,9 @@ import { redirect } from 'next/navigation';
 
 const AnimeLayout = async ({
   children,
+  modal,
 }: Readonly<{
+  modal: React.ReactNode;
   children: React.ReactNode;
 }>) => {
   const user = await getSession();
@@ -35,6 +37,7 @@ const AnimeLayout = async ({
           <Profile username={user.username} role={user.role} />
         </HStack>
       </Flex>
+      {modal}
       {children}
       <Flex as='footer' justifyContent='center' py='16px'>
         Web Challenge V3.5
